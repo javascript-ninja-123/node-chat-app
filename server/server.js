@@ -2,8 +2,8 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
-const socketIO = require('socket.io')
-
+const socketIO = require('socket.io');
+const  {generateMessage} = require('./utils/message');
 
 
 const publicPath = path.join(__dirname, '../public');
@@ -19,38 +19,17 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connected')
 
-  // socket.emit('newEmail', {
-  //   from:'sung.yi.developer@gmail.com',
-  //   text:'What is going on',
-  //   createdAt:123
-  // });
+  socket.emit('newMessage', generateMessage('Admin','welcome to the app'))
+  socket.broadcast.emit('newMessage',generateMessage('Admin','new user is joined'))
 
 
-  socket.emit('fromAdmin', {
-    from:'Admin',
-    text:'Weclome to the Chat'
-  })
-
-  socket.broadcast.emit('newUser',{
-    from:'Admin',
-    text:'new User joined'
-  })
-  socket.on('createMessage', newMessage => {
-    console.log('new message',newMessage)
-    io.emit('newMessage', {
-      ...newMessage,
-      createdAt: new Date().getTime()
-    })
+  socket.on('createMessage', message => {
+    io.emit('newMessage', generateMessage(message.from, message.text))
     // socket.broadcast.emit('newMessage',{
     //   ...newMessage,
     //   createdAt: new Date().getTime()
     // })
   } )
-
-  // socket.on('createEmail', newEmail => {
-  //   console.log(`create Email`,newEmail)
-  // })
-
   socket.on('disconnect', () => {
     console.log('User is disconnected');
   })
