@@ -29,7 +29,11 @@ io.on('connection', (socket) => {
 
   socket.on('createMessage', newMessage => {
     console.log('new message',newMessage)
-    io.emit('newMessage', {
+    // io.emit('newMessage', {
+    //   ...newMessage,
+    //   createdAt: new Date().getTime()
+    // })
+    socket.broadcast.emit('newMessage',{
       ...newMessage,
       createdAt: new Date().getTime()
     })
