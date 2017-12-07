@@ -26,17 +26,25 @@ io.on('connection', (socket) => {
   // });
 
 
+  socket.emit('fromAdmin', {
+    from:'Admin',
+    text:'Weclome to the Chat'
+  })
 
+  socket.broadcast.emit('newUser',{
+    from:'Admin',
+    text:'new User joined'
+  })
   socket.on('createMessage', newMessage => {
     console.log('new message',newMessage)
-    // io.emit('newMessage', {
-    //   ...newMessage,
-    //   createdAt: new Date().getTime()
-    // })
-    socket.broadcast.emit('newMessage',{
+    io.emit('newMessage', {
       ...newMessage,
       createdAt: new Date().getTime()
     })
+    // socket.broadcast.emit('newMessage',{
+    //   ...newMessage,
+    //   createdAt: new Date().getTime()
+    // })
   } )
 
   // socket.on('createEmail', newEmail => {
