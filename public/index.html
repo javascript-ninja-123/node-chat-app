@@ -5,9 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    ul,li{
+      list-style: none;
+    }
+    ul,li{
+      margin-left:20px;
+    }
+  </style>
 </head>
 <body>
-  <h2>Hello</h2>
+  <form id='message-form'>
+    <input type="text" name='message' placeholder='type someting' id='messageInput'/>
+    <button id='button'>send</button>
+  </form>
+  <ui id='messageList'>
+
+  </ui>
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/index.js"></script>
 </body>
